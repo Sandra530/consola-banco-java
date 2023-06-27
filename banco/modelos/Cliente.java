@@ -8,6 +8,7 @@ public class Cliente extends Usuario {
 
 			
 	
+
 	public Cliente(Integer id, String usuario, String password, String correo, Double saldo, Integer idGestor) {
 		super(id, usuario, password, correo);
 		this.saldo = saldo;

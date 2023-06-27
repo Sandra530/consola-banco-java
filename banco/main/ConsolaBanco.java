@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import banco.modelos.Cliente;
 import banco.modelos.Gestor;
+import banco.modelos.Usuario;
 import banco.util.Utiles;
 
 public class ConsolaBanco {
@@ -66,6 +67,16 @@ public class ConsolaBanco {
 			case 7:
 				insertarCliente();
 				break;
+			case 8:
+				consultarCliente();
+			case 9:
+				mostrarClientes();
+			case 10:
+				actualizarCliente();
+				break;
+			case 11:
+				eliminarCliente();
+				break;
 			case 18:
 				login();
 				break;
@@ -78,7 +89,7 @@ public class ConsolaBanco {
 
 		} while (opcion != 0);
 	}
-
+	
 	private void insertarCliente() {
 		//insertar cliente
 		Scanner teclado = new Scanner(System.in);
@@ -88,8 +99,75 @@ public class ConsolaBanco {
 	    String email = teclado.next();
 	    System.out.print("Contraseña: ");
 	    String pass = teclado.next();
+	    
 	   System.out.println("Cliente creado con éxito.");
+	}
+	private void consultarCliente() {
+	    System.out.print("Id del cliente a consultar: ");
+	    int idCliente = teclado.nextInt();
+	    Cliente clienteResultado = buscarClientePorId(idCliente);
+	    if (clienteResultado != null) {
+	        System.out.println(clienteResultado);
+	    } else {
+	        System.out.println("No se pudo encontrar un cliente con el id " + idCliente);
+	    }
+	}
+	
+	private void mostrarClientes() {
+		if (gestores.isEmpty()) {
+			System.out.println("Todavía no hay clientes.");
+		}
+		gestores.forEach(gestor -> {
+			System.out.println(gestor);
+		});
+	}
+	private void actualizarCliente() {
+		System.out.print("Id del cliente a actualizar: ");
+		int idCliente = teclado.nextInt();
+		Cliente clienteResultado = buscarClientePorId(idCliente);
+		if (clienteResultado != null) {
+			System.out.println(clienteResultado);
+			System.out.println("[n] Nombre");
+			System.out.println("[e] Email");
+			System.out.println("[c] Contraseña");
+			System.out.println("[x] Cancelar");
+			System.out.print("Campo a actualizar: ");
+			char opcionActualizar = teclado.next().charAt(0);
+			switch (opcionActualizar) {
+			case 'n':
+				System.out.print("Nombre: ");
+				String nombre = teclado.next();
+				clienteResultado.setUsuario(nombre);
+				break;
+			case 'e':
+				System.out.print("Email: ");
+				String email = teclado.next();
+				clienteResultado.setCorreo(email);
+				break;
+			case 'c':
+				System.out.print("Contraseña: ");
+				String pass = teclado.next();
+				clienteResultado.setPassword(pass);
+				break;
 		
+			case 'x':
+				System.out.print("Cancelando actualización...");
+				break;
+			default:
+				System.out.println("Opción no válida.");
+			}
+			if (opcionActualizar != 'x') {
+				System.out.println("Se actualizó el gestor con el id " + idCliente);
+			}
+		} else {
+			System.out.println("No se pudo encontrar un gestor con el id " + idCliente);
+		}
+		
+	}
+	
+	private Cliente buscarClientePorId(int idCliente) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void login() {
@@ -118,12 +196,12 @@ public class ConsolaBanco {
 		System.out.println("4. Ver todos los gestores");
 		System.out.println("5. Actualizar gestor");
 		System.out.println("6. Eliminar un gestor");
-		//faltan estos por implementar
-		System.out.println("7.  Inserción de un cliente");
-		System.out.println("8.  Obtención de un cliente");
-		System.out.println("9.  Obtención de todos los clientes");
+		System.out.println("7. Inserción de un cliente");
+		System.out.println("8. Obtención de un cliente");
+		System.out.println("9. Obtención de todos los clientes");
 		System.out.println("10. Actualización de un cliente");
 		System.out.println("11. Eliminación de un cliente");
+		
 		System.out.println("12. Obtención de un mensaje");
 		System.out.println("13. Obtención de todos los mensajes");
 		System.out.println("14. Envío de un mensaje");
@@ -269,7 +347,22 @@ public class ConsolaBanco {
 		}
 		
 	}
-
+private void eliminarCliente() {
+	System.out.print("Id del gestor a eliminar: ");
+	int idCliente = teclado.nextInt();
+	Cliente clienteResultado = null;
+	int posicionCliente = -1;
+	for (int i = 0; i < clientes.size(); i++) {
+		Usuario cliente = null;
+		if(cliente.getId() == idCliente) {
+			clienteResultado = (Cliente) cliente;
+			posicionCliente = i;
+			break;
+	
+		}
+	}
+	
+}
 	private void cerrar() {
 		teclado.close();
 		System.out.println("¡Hasta pronto!");
