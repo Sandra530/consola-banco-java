@@ -1,11 +1,14 @@
 package banco.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 import banco.modelos.Cliente;
 import banco.modelos.Gestor;
+import banco.modelos.Mensaje;
+import banco.modelos.Transferencia;
 import banco.modelos.Usuario;
 import banco.util.Utiles;
 
@@ -16,6 +19,8 @@ public class ConsolaBanco {
 	// simula "base de datos" de gestores
 	private List<Gestor> gestores;
     List<Gestor> clientes;
+	List<Gestor> transferencias;
+
 
 	// para garantizar que el id es único
 	private Integer siguienteIdGestor;
@@ -77,6 +82,22 @@ public class ConsolaBanco {
 			case 11:
 				eliminarCliente();
 				break;
+			case 12:
+				insertarMensaje();
+				break;
+			case 13:
+				mostrarMensaje();
+				break;
+			case 14:
+				enviarMensaje();			
+			break;
+			case 15:
+				crearTransferencia ();
+				break;
+			case 16: mostrarTransferencia ();
+				break;
+			case 17: enviarTransferencia ();
+				break;
 			case 18:
 				login();
 				break;
@@ -119,6 +140,15 @@ public class ConsolaBanco {
 		}
 		gestores.forEach(gestor -> {
 			System.out.println(gestor);
+		});
+	}
+	private void mostrarMensaje() {
+		if (gestores.isEmpty()) {
+			System.out.println("Todavía no hay mensajes.");
+	}
+		Iterable<Gestor> mensajes = null;
+		mensajes.forEach(mensaje -> {
+			System.out.println(mensaje);
 		});
 	}
 	private void actualizarCliente() {
@@ -164,6 +194,10 @@ public class ConsolaBanco {
 		}
 		
 	}
+	private void enviarMensaje() {
+		System.out.print("Enviar mensaje: ");
+		int idMensaje = teclado.nextInt();
+	}
 	
 	private Cliente buscarClientePorId(int idCliente) {
 		// TODO Auto-generated method stub
@@ -188,6 +222,36 @@ public class ConsolaBanco {
 			System.out.println("El usuario no existe...");
 		}
 	}
+	private void crearTransferencia() {
+		
+		System.out.print("Transferencia: ");
+		String nombre = teclado.next();
+		System.out.print("Nombre: ");
+		Transferencia nuevoTransferencia = new Transferencia(siguienteIdGestor, nombre, nombre, nombre, null, siguienteIdGestor);
+		transferencias.addAll((Collection<? extends Gestor>) nuevoTransferencia);
+		siguienteIdGestor++;
+		System.out.println("Transferencia creado con éxito.");
+	}
+	
+
+	private void mostrarTransferencia() {
+		if (gestores.isEmpty()) {
+			System.out.println("No hay Transferencias.");
+		}
+		gestores.forEach(gestor -> {
+			System.out.println(gestor);
+		});
+	}
+	private void enviarTransferencia() {
+		System.out.print("Enviar transferencia: ");
+		String nombre = teclado.next();
+		int idTransferencia = teclado.nextInt();
+		Transferencia nuevoTransferencia = new Transferencia(siguienteIdGestor, nombre, nombre, nombre, null, siguienteIdGestor);
+		System.out.print("Nombre: ");
+		System.out.println("Transferencia enviada con éxito.");
+	}
+	
+
 
 	private void mostrarMenu() {
 		System.out.println("\n1. Insertar gestor");
@@ -201,14 +265,12 @@ public class ConsolaBanco {
 		System.out.println("9. Obtención de todos los clientes");
 		System.out.println("10. Actualización de un cliente");
 		System.out.println("11. Eliminación de un cliente");
-		
 		System.out.println("12. Obtención de un mensaje");
 		System.out.println("13. Obtención de todos los mensajes");
 		System.out.println("14. Envío de un mensaje");
 		System.out.println("15. Obtención de una transferencia");
 		System.out.println("16. Obtención de todas las trasferencias");
 		System.out.println("17. Envío de una transferencia");
-		//hasta aqui		
 		System.out.println("18. Iniciar sesión como gestor");
 		System.out.println("0. Salir\n");
 	}
@@ -226,6 +288,14 @@ public class ConsolaBanco {
 		gestores.add(nuevoGestor);
 		siguienteIdGestor++;
 		System.out.println("Gestor creado con éxito.");
+	}
+	private void insertarMensaje() {
+		System.out.print("Mensaje: ");
+		String mensaje = teclado.next();
+	
+		Mensaje nuevoMensaje = new Mensaje (siguienteIdGestor,  siguienteIdGestor, siguienteIdGestor, mensaje);
+		siguienteIdGestor++;
+		System.out.println("Mensaje creado con éxito.");
 	}
 
 	private void insertarGestoresDePrueba() {
